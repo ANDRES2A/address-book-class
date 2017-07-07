@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
+
+import axios from 'axios';
+
 import Header from './components/Header';
 import Footer from './components/Footer';
 import SearchBox from './components/SearchBox';
-import ContactForm from './components/ContactForm'
+import ContactForm from './components/ContactForm';
+import ContactList from './components/ContactList';
+
+const API_URL= 'https://address-book-api-kfpkaqtghu.now.sh';
 
 class App extends React.Component {
   constructor(props){
@@ -12,8 +18,33 @@ class App extends React.Component {
       nombre: '',
       apellido: '',
       telefono: '',
+      contacts:[],
     };
   }
+
+  componentDidMount(){
+    this.getContacts();
+  }
+
+  getContacts = () => {
+    axios({
+      method: 'GET',
+      url: API_URL + '/api/contacts',
+      headers: {
+        'Api-Key':'1719069385',
+      }
+    })
+    .then((response)=>{
+      this.setState({
+      contacts: response.data.data
+    });
+      console.log(this.state.contacts);
+    })
+    .catch((error)=>{
+      console.log(error);
+    })
+  }
+
   handleSearchTextChange = (event) =>{
     this.setState({
       searchText: event.target.value
@@ -34,7 +65,39 @@ class App extends React.Component {
       telefono: event.target.value
     });
   }
+
+  saveContact = (contact) =>{
+    axios({
+      method: 'POST',
+      url: API_URL + '/api/contacts',
+      headers: {
+        'Api-Key':'1719069385',
+        'Content-Type': 'application/json',
+      },
+      data:{
+        firstName: contact.firstName,
+        lastName: contact.lastName,
+        phone: contact.phone,
+      }
+    }).then((response) =>{
+        console.log(response);
+        this.getContacts();
+    });
+  }
+
   render() {
+    const contacts = this.state.contacts.filter((contact, index)=>{
+    //  if(this.state.searchText === contact.firstName){
+    //    return true;
+    //  }
+     if(contact.firstName.indexOf(this.state.searchText) > -1){
+       return true;
+     }
+     if(contact.lastName.indexOf(this.state.searchText) > -1){
+       return true;
+     }
+     return false;
+    });
     return (
       <div>
         <Header title="Address Book"/>
@@ -44,6 +107,7 @@ class App extends React.Component {
                 <SearchBox 
                 value={this.state.searchText}
                 onChange={this.handleSearchTextChange}/>
+                <ContactList contacts={contacts}/>
               </div>
               <div className="col-md-6">
                 <h1>Nuevo contacto</h1>
@@ -54,6 +118,7 @@ class App extends React.Component {
                 handleNameChange={this.handleNameChange}
                 handleLastNameChange={this.handleLastNameChange}
                 handlePhoneChange={this.handlePhoneChange}
+                saveContact={this.saveContact}
                 />
               </div>
           </div>
