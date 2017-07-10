@@ -1,17 +1,26 @@
 import React from 'react';
 
 const ContactList = (props) =>{
-    const  contacts = props.contacts.map((contact) => (
-        <div key={contact._id} className="list-group-item">
-            <p>{contact.firstName}</p>
-            <p>{contact.lastName}</p>
-            <p>{contact.phone}</p>
-        </div>
+    const  pets = props.pets.map((pet) => (
+        <tr key={pet._id}>
+            <td>{pet.name}</td>
+            <td>{pet.age}</td>
+            <td>{pet.breed}</td>
+        </tr>
     ));
 return(
-    <div className="list-group">
-        {contacts}
-    </div>
+   <table className="table table-bordered">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Breed</th>
+      </tr>
+    </thead>
+    <tbody>
+        {pets}
+    </tbody>
+    </table>
 );
 }
 

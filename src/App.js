@@ -16,21 +16,21 @@ class App extends React.Component {
     super(props);
     this.state={
       searchText:'',
-      nombre: '',
-      apellido: '',
-      telefono: '',
-      contacts:[],
+      name: '',
+      age: '',
+      breed: '',
+      pets:[],
     };
   }
 
   componentDidMount(){
-    this.getContacts();
+    this.getPets();
   }
 
-  getContacts = () => {
+  getPets = () => {
     axios({
       method: 'GET',
-      url: API_URL + '/api/contacts',
+      url: API_URL + '/api/pets',
       /*headers: {
         'Api-Key':'1719069385',
       }*/
@@ -38,9 +38,9 @@ class App extends React.Component {
     .then((response)=>{
       console.log(response);
       this.setState({
-      contacts: response.data
+      pets: response.data
     });
-      console.log(this.state.contacts);
+      console.log(this.state.pets);
     })
     .catch((error)=>{
       console.log(error);
@@ -54,48 +54,48 @@ class App extends React.Component {
   }
   handleNameChange = (event) =>{
     this.setState({
-      nombre: event.target.value
+      name: event.target.value
     });
   }
-  handleLastNameChange = (event) =>{
+  handleageChange = (event) =>{
     this.setState({
-      apellido: event.target.value
+      age: event.target.value
     });
   }
-  handlePhoneChange = (event) =>{
+  handlebreedChange = (event) =>{
     this.setState({
-      telefono: event.target.value
+      breed: event.target.value
     });
   }
 
-  saveContact = (contact) =>{
+  saveContact = (pet) =>{
     axios({
       method: 'POST',
-      url: API_URL + '/api/contacts',
+      url: API_URL + '/api/pets',
       headers: {
         //'Api-Key':'1719069385',
         'Content-Type': 'application/json',
       },
       data:{
-        firstName: contact.firstName,
-        lastName: contact.lastName,
-        phone: contact.phone,
+        name: pet.name,
+        age: pet.age,
+        breed: pet.breed,
       }
     }).then((response) =>{
         console.log(response);
-        this.getContacts();
+        this.getPets();
     });
   }
 
   render() {
-    const contacts = this.state.contacts.filter((contact, index)=>{
-    //  if(this.state.searchText === contact.firstName){
+    const pets = this.state.pets.filter((pet, index)=>{
+    //  if(this.state.searchText === pet.name){
     //    return true;
     //  }
-     if(contact.firstName.indexOf(this.state.searchText) > -1){
+     if(pet.name.indexOf(this.state.searchText) > -1){
        return true;
      }
-     if(contact.lastName.indexOf(this.state.searchText) > -1){
+     if(pet.breed.indexOf(this.state.searchText) > -1){
        return true;
      }
      return false;
@@ -105,23 +105,25 @@ class App extends React.Component {
         <Header title="Address Book"/>
         <div className="container">
           <div className="row">
-              <div className="col-md-6">
+              <div className="col-md-12">
+                 <h1>New pet</h1>
+                <ContactForm 
+                name={this.state.name}
+                age={this.state.age}
+                breed={this.state.breed}
+                handleNameChange={this.handleNameChange}
+                handleageChange={this.handleageChange}
+                handlebreedChange={this.handlebreedChange}
+                saveContact={this.saveContact}
+                />
+              </div>
+          </div>
+          <div className="row">
+              <div className="col-md-12">
                 <SearchBox 
                 value={this.state.searchText}
                 onChange={this.handleSearchTextChange}/>
-                <ContactList contacts={contacts}/>
-              </div>
-              <div className="col-md-6">
-                <h1>Nuevo contacto</h1>
-                <ContactForm 
-                nombre={this.state.nombre}
-                apellido={this.state.apellido}
-                telefono={this.state.telefono}
-                handleNameChange={this.handleNameChange}
-                handleLastNameChange={this.handleLastNameChange}
-                handlePhoneChange={this.handlePhoneChange}
-                saveContact={this.saveContact}
-                />
+                <ContactList pets={pets}/>
               </div>
           </div>
         </div>

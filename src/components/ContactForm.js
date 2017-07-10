@@ -3,41 +3,41 @@ import React from 'react';
 const SearchBox = (props) =>(
 <div className="well form-horizontal">
     <div className="form-group">
-        <label className="col-md-4 control-label">First Name</label>
+        <label className="col-md-4 control-label">Name</label>
         <div className="col-md-6 inputGroupContainer">
         <div className="input-group">
             <span className="input-group-addon"><i className="glyphicon glyphicon-user"></i></span>
             <input 
             type="text" 
-            value={props.nombre}
+            value={props.name}
             onChange={props.handleNameChange}
-            placeholder="First Name" className="form-control" />
+            placeholder="Name" className="form-control" />
         </div>
         </div>
         </div>
     <div className="form-group">
-        <label className="col-md-4 control-label" >Last Name</label>
+        <label className="col-md-4 control-label" >Age</label>
         <div className="col-md-6 inputGroupContainer">
         <div className="input-group">
             <span className="input-group-addon"><i className="glyphicon glyphicon-user"></i></span>
     <input 
     type="text" 
-    value={props.apellido}
-    onChange={props.handleLastNameChange}
-    placeholder="Last Name" className="form-control"/>
+    value={props.age}
+    onChange={props.handleageChange}
+    placeholder="Age" className="form-control"/>
         </div>
         </div>
         </div>
     <div className="form-group">
-        <label className="col-md-4 control-label">Phone #</label>
+        <label className="col-md-4 control-label">Breed</label>
         <div className="col-md-6 inputGroupContainer">
         <div className="input-group">
-        <span className="input-group-addon"><i className="glyphicon glyphicon-earphone"></i></span>
+        <span className="input-group-addon"><i className="glyphicon glyphicon-earbreed"></i></span>
     <input 
     type="text" 
-    value={props.telefono}
-    onChange={props.handlePhoneChange}
-    placeholder="(845)555-1212" className="form-control"/>
+    value={props.breed}
+    onChange={props.handlebreedChange}
+    placeholder="Breed" className="form-control"/>
         </div>
         </div>
         </div>
@@ -46,9 +46,9 @@ const SearchBox = (props) =>(
      <div className="col-md-4">
         <button className="btn btn-primary" 
         onClick={() => props.saveContact({
-            firstName: props.nombre,
-            lastName: props.apellido,
-            phone: props.telefono
+            name: props.name,
+            age: props.age,
+            breed: props.breed
         })}
         >Guardar</button>
      </div>
