@@ -8,13 +8,14 @@ import SearchBox from './components/SearchBox';
 import ContactForm from './components/ContactForm';
 import ContactList from './components/ContactList';
 
-const API_URL= 'https://address-book-api-kfpkaqtghu.now.sh';
+//const API_URL= 'https://address-book-api-kfpkaqtghu.now.sh';
+const API_URL= 'http://localhost:8000';
 
 class App extends React.Component {
   constructor(props){
     super(props);
     this.state={
-      searchText:'Busqueda',
+      searchText:'',
       nombre: '',
       apellido: '',
       telefono: '',
@@ -30,13 +31,14 @@ class App extends React.Component {
     axios({
       method: 'GET',
       url: API_URL + '/api/contacts',
-      headers: {
+      /*headers: {
         'Api-Key':'1719069385',
-      }
+      }*/
     })
     .then((response)=>{
+      console.log(response);
       this.setState({
-      contacts: response.data.data
+      contacts: response.data
     });
       console.log(this.state.contacts);
     })
@@ -71,7 +73,7 @@ class App extends React.Component {
       method: 'POST',
       url: API_URL + '/api/contacts',
       headers: {
-        'Api-Key':'1719069385',
+        //'Api-Key':'1719069385',
         'Content-Type': 'application/json',
       },
       data:{
@@ -123,7 +125,6 @@ class App extends React.Component {
               </div>
           </div>
         </div>
-        Hola Mundo
         <Footer title="Copyright 2017 - PUCE"/>
       </div>
     );
